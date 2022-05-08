@@ -1,4 +1,3 @@
-// seleccionem tots els cards
 var cards = document.querySelectorAll('.card');
 var cardsValues = new Array(12);
 var firstClickId;
@@ -7,10 +6,8 @@ var comparisonCounter = 0;
 var comparisonArray = new Array(2);
 var cardValues = new Array(2);
 
-// recorrem els cards un a un 
 cards.forEach((card) => {
   card.addEventListener('click', function () {
-    // Si esta actiu, el treu, si esta inactiu, el posa. 
     card.classList.toggle('is-flipped');
     saveComparisonValues(card);
 
@@ -47,7 +44,7 @@ function findDuplicates(array, newValue) {
     }
   }
 }
- 
+
 function saveComparisonValues(card) {
   comparisonArray[comparisonCounter] = card.id;
   cardValues[comparisonCounter] = card;
@@ -60,10 +57,6 @@ function saveComparisonValues(card) {
     compareCardValues(comparisonArray);
     comparisonArray = [];
     comparisonCounter = 0;
-
-
-    // cardValues[0].classList.toggle('is-flipped');
-    // cardValues[1].classList.toggle('is-flipped');
 
   }
 }
