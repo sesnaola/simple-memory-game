@@ -84,14 +84,14 @@ function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-function validateForm(numberOfCardsSelected) {
+function getInputData(numberOfCardsSelected) {
   for (let i = 0; i < numberOfCardsSelected.value; i++) {
 
     if (i == 0) {
       document.querySelector('body').innerHTML =
         `    
         Introdueix el nombre de cartes: <input type="number" id="cardNumber">
-        <button onclick='validateForm(document.getElementById("cardNumber"))'>Submit</button> <br>
+        <button onclick='getInputData(document.getElementById("cardNumber"))'>Submit</button> <br>
 
 
   <div class="scene scene--card card-0${i + 1}">
