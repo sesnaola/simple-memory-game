@@ -1,4 +1,4 @@
-var cards = document.querySelectorAll('.card');
+// var cards = document.querySelectorAll('.card');
 var cardsValues = new Array(12);
 var firstClickId;
 var secondClickId;
@@ -6,15 +6,24 @@ var comparisonCounter = 0;
 var comparisonArray = new Array(2);
 var cardValues = new Array(2);
 
-cards.forEach((card) => {
-  card.addEventListener('click', function () {
-    card.classList.toggle('is-flipped');
-    saveComparisonValues(card);
 
+function cardsActionsAndValues() {
+  flipCardsOnClick();
+  setCardsValuesAndImages();
+}
+
+function flipCardsOnClick() {
+  var cards = document.querySelectorAll('.card');
+  cards.forEach((card) => {
+    card.addEventListener('click', function () {
+      card.classList.toggle('is-flipped');
+      saveComparisonValues(card);
+
+    });
   });
-});
+}
 
-function setCardsValues() {
+function setCardsValuesAndImages() {
   for (let i = 0; i < cardsValues.length; i++) {
     var newRandomNumber = randomNumber();
     if (findDuplicates(cardsValues, newRandomNumber)) {
@@ -22,15 +31,19 @@ function setCardsValues() {
       continue;
     }
     cardsValues[i] = newRandomNumber;
-    var source = "https://picsum.photos/1000?random=" + cardsValues[i];
-    document.getElementById(i + 1).querySelector('.card__face--back img').src = source;
+    setCardsImage(i);
   }
-
 }
 
 function randomNumber() {
-  var number = Math.floor(Math.random() * (6 - 1 + 1) + 1)
+  var number = Math.floor(Math.random() * ((cardsValues.length / 2) - 1 + 1) + 1)
   return number;
+}
+
+function setCardsImage(i) {
+  var source = "https://picsum.photos/1000?random=" + cardsValues[i];
+
+  document.getElementById(i + 1).querySelector('.card__face--back img').src = source;
 }
 
 function findDuplicates(array, newValue) {
@@ -50,10 +63,8 @@ function saveComparisonValues(card) {
   cardValues[comparisonCounter] = card;
   comparisonCounter++;
 
-  console.log("array: " + comparisonArray);
 
   if (comparisonArray[1] != null) {
-    console.log("Ready to compare!");
     compareCardValues(comparisonArray);
     comparisonArray = [];
     comparisonCounter = 0;
@@ -62,8 +73,6 @@ function saveComparisonValues(card) {
 }
 
 function compareCardValues(array) {
-  console.log("first value: " + cardsValues[array[0] - 1])
-  console.log("second value: " + cardsValues[array[1] - 1])
   if (cardsValues[array[0] - 1] == cardsValues[array[1] - 1]) {
     console.log("They are the same");
   } else {
@@ -77,4 +86,44 @@ function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-setCardsValues();
+function validateForm(numberOfCardsSelected) {
+  for (let i = 0; i < numberOfCardsSelected.value; i++) {
+
+    if (i == 0) {
+      document.querySelector('body').innerHTML =
+        `    
+        Introdueix el nombre de cartes: <input type="number" id="cardNumber">
+        <button onclick='validateForm(document.getElementById("cardNumber"))'>Submit</button> <br>
+
+
+  <div class="scene scene--card card-0${i + 1}">
+      <div class="card" id="${i + 1}">
+          <div class="card__face"><img src="/img/interrogation.png" alt="picsum random image"
+                  style="width:300px;height:300px;" draggable="false">
+          </div>
+          <div class="card__face card__face--back"><img src="https://picsum.photos/1000?random=${i + 1}"
+                  alt="picsum random image" style="width:300px;height:300px;" draggable="false">
+          </div>
+      </div>
+  </div>
+    `
+    } else {
+      document.querySelector('body').innerHTML +=
+        `    
+  <div class="scene scene--card card-0${i + 1}">
+      <div class="card" id="${i + 1}">
+          <div class="card__face"><img src="/img/interrogation.png" alt="picsum random image"
+                  style="width:300px;height:300px;" draggable="false">
+          </div>
+          <div class="card__face card__face--back"><img src="https://picsum.photos/1000?random=${i + 1}"
+                  alt="picsum random image" style="width:300px;height:300px;" draggable="false">
+          </div>
+      </div>
+  </div>
+    `
+    }
+  }
+  cardsValues.length = numberOfCardsSelected.value;
+
+  cardsActionsAndValues()
+}
