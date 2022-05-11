@@ -1,7 +1,5 @@
 // var cards = document.querySelectorAll('.card');
-var cardsValues = new Array(12);
-var firstClickId;
-var secondClickId;
+var cardsValues = new Array();
 var comparisonCounter = 0;
 var comparisonArray = new Array(2);
 var cardValues = new Array(2);
